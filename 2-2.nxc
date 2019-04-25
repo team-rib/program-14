@@ -1,0 +1,23 @@
+#define REVTIME 500
+#define POWDEG 450
+/*turning function*/
+sub turn_around(int pow){
+OnRev(OUT_AC,pow);
+Wait(REVTIME);
+RotateMotor(OUT_C,pow,POWDEG);
+Off(OUT_AC);
+}
+
+task main(){
+SetSensor(IN_2, SENSOR_TOUCH);
+SetSensorMode(IN_2, SENSOR_MODE_BOOL);
+ /*0or1*/
+while (1)
+{
+  while (SENSOR_2==0)
+  {
+    OnFwd(OUT_AC,75);
+  }  /*if touched Go To turning function*/
+turn_around(100);
+}
+}
