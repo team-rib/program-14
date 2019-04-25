@@ -1,0 +1,55 @@
+#define THRESHOLD 500
+#define REVTIME 500
+#define POWDEG 450
+
+sub search_for(int pow){
+int cnt=0;
+OnRev(OUT_C,pow);
+OnFwd(OUT_A,pow);
+
+while (cnt<3)
+{
+  if (SENSOR_1<THRESHOLD){
+  cnt=0;
+  }
+else{
+  cnt++;
+  }
+}
+
+Off(OUT_AC);
+}
+  /*2-1*/
+sub turn_around(int pow){
+OnRev(OUT_AC,pow);
+Wait(REVTIME);
+RotateMotor(OUT_C,pow,POWDEG);
+Off(OUT_AC);
+}
+ /*2-2*/
+task main(){
+SetSensor(IN_1, SENSOR_LIGHT);
+SetSensorMode(IN_1, SENSOR_MODE_RAW);
+SetSensor(IN_2, SENSOR_TOUCH);
+SetSensorMode(IN_2, SENSOR_MODE_BOOL);
+
+
+while (1)
+{
+
+search_for(100);
+OnFwd(OUT_AC,75);
+int i=0;
+ /*the time past,turn again
+*/
+for(i=0;i<1000;i++){
+if(SENSOR_2==0){
+  Wait(1);
+}
+else{
+turn_around(100);
+i=1023;
+}
+}
+}
+}
