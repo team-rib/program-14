@@ -1,0 +1,74 @@
+ /* task move_random();
+  task avoid_wall();
+  task course_ball();
+  task speaker () ;*/
+   int a,b,c ; int sem =0;
+/*  task move_random(){
+while(IN_1<600){
+until(sem ==0){
+
+a = Random(500);
+b= Random (500);
+c = Random(50);
+c=c+50;
+sem=1;
+OnRev(OUT_A,c);
+OnFwd(OUT_C,c);
+Wait(c-100);
+OnFwd(OUT_AC,c);
+Wait(b);
+
+sem=0;
+
+}}}  */
+task avoid_wall(){
+until(sem==0){sem=1;
+OnFwd(OUT_AC,100);
+Wait(700);
+Off(OUT_AC);
+OnRev(OUT_A,100);
+Wait(500);
+Off(OUT_AC);
+sem=0;
+} }
+
+task course_ball(){
+int times=300;
+short wait_time =700,count =0;
+while(count <3){
+if(Sensor(IN_1)>700){
+count++;}
+Wait(10);}
+
+if(count>3){ sem=1;until(sem ==0){
+
+OnRev (OUT_A ,100);
+OnRev (OUT_C, 10);
+Wait(times);
+OnRev(OUT_AC,100);
+Wait(wait_time);
+OnFwd(OUT_A,20);
+OnRev(OUT_C,100);
+Wait(times);
+sem=0;
+}
+
+} }
+
+  task speaker (){
+while(true){
+while(sem == 1){PlayTone(500,200);}  }
+}
+
+task main(){
+ SetSensor(IN_1,SENSOR_LIGHT);
+  SetSensorLight(IN_3);
+  SetSensorTouch(IN_2);
+  SetSensorTouch(IN_4);
+  SetSensorMode(IN_1, SENSOR_MODE_RAW);
+  SetSensorMode(IN_2, SENSOR_MODE_BOOL);
+  SetSensorMode(IN_4, SENSOR_MODE_BOOL);
+
+Precedes(/*move_random,*/avoid_wall,course_ball,speaker);
+}
+
