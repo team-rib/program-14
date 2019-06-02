@@ -1,0 +1,36 @@
+#define go OnFwd(OUT_AC,75);
+#define right OnFwd(OUT_A,75);OnRev(OUT_C,75);
+#define left OnRev(OUT_A,75);OnFwd(OUT_C,75);
+#define wait Wait(100);
+int sem,a =0;
+task main(){
+    SetSensorType(IN_1, SENSOR_TYPE_LIGHT);
+    SetSensorMode(IN_1,SENSOR_MODE_RAW);
+    SetSensorType(IN_3, SENSOR_TYPE_LIGHT);
+    SetSensorMode(IN_3,SENSOR_MODE_RAW);
+    while(1){
+    if(IN_1>700){
+    break;
+    }
+    else if(IN_1<300){
+    right;
+    a = IN_3;
+    wait;
+    wait;
+    wait;
+     if(a>IN_3){
+     repeat (3){
+     wait;}}
+     else if(a<IN_3){
+     repeat(5){
+     left;
+     wait;}}
+     else{wait;}
+    }
+    else{
+    right;
+    repeat(5){
+    wait;}
+    go;}
+  }
+}
